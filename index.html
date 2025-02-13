@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .stopwatch-container {
+            background: url('https://source.unsplash.com/800x400/?beach,relax') no-repeat center;
+            background-size: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            color: #ffffff;
+            width: 350px;
+        }
+
+        .timer {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .control-button {
+            background-color: #ff5722;
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            font-size: 1.5rem;
+            height: 60px;
+            width: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .control-button:hover {
+            transform: scale(1.1);
+        }
+
+        .control-button:active {
+            transform: scale(0.9);
+        }
+
+        .reset {
+            background-color: #607d8b;
+        }
+
+        .stop {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch-container">
+        <div class="timer" id="timer">00:00:00</div>
+        <div class="controls">
+            <button class="control-button stop" id="stop">&#9632;</button>
+            <button class="control-button start" id="start">&#9654;</button>
+            <button class="control-button reset" id="reset">&#10227;</button>
+        </div>
+    </div>
+
+    <script>
+        let timerDisplay = document.getElementById('timer');
+        let startButton = document.getElementById('start');
+        let stopButton = document.getElementById('stop');
+        let resetButton = document.getElementById('reset');
+
+        let interval;
+        let elapsedTime = 0;
+
+        function formatTime(time) {
+            const hours = String(Math.floor(time / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((time % 3600) / 60)).padStart(2, '0');
+            const seconds = String(time % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        function startTimer() {
+            if (!interval) {
+                interval = setInterval(() => {
+                    elapsedTime++;
+                    timerDisplay.textContent = formatTime(elapsedTime);
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            elapsedTime = 0;
+            timerDisplay.textContent = "00:00:00";
+        }
+
+        startButton.addEventListener('click', startTimer);
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+    </script>
+</body>
+</html>
